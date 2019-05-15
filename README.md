@@ -32,9 +32,9 @@ All you need to do is fire up the benchmarkRRT.m file, it is pretty self explana
 * random_world = 0 or 1;
 
 ## For RRT* only
-*radius = 10;
-*samples = 4000;
+* radius = 10;
+* samples = 4000;
 
 ## Showing output or not
-*show_output = 0 or 1;
-*show_benchmark_results = 0 or 1;
+* show_output = 0 or 1;
+* show_benchmark_results = 0 or 1;
