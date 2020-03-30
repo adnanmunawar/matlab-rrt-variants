@@ -42,10 +42,10 @@
 % ==============================================================================
 
 function [its,sizePath,run_time] =  RRTstar3D(dim,segmentLength,radius,random_world,show_output,samples)
-if samples < 4000
-    disp('ERROR! SPECIFY ATLEAST 4000 SAMPLES')
-    return
-end
+% if samples < 4000
+%     disp('ERROR! SPECIFY ATLEAST 4000 SAMPLES')
+%     return
+% end
 
 % dim = 2;
 % radius =0;
@@ -82,6 +82,7 @@ end_node = [goal_cord,0,0,0];
 % establish tree starting with the start node
 tree = start_node;
 
+numPaths = 0;
 a = clock;
 % check to see if start_node connects directly to end_node
 if ( (norm(start_node(1:dim)-end_node(1:dim))<segmentLength )...
@@ -94,29 +95,28 @@ else
     if samples >0
         draw = floor(samples/8);
         its = 0;
-        numPaths = 0;
-        flag = 0;
         for i = 1:samples
+            flag = 0;
             [tree,flag] = extendTree(tree,end_node,segmentLength,radius,world,flag,dim);
             numPaths = numPaths + flag;
             its = its+1;
             
             if its == draw
-                tree_500 = tree;
+                tree_1 = tree;
             elseif its == draw*2
-                tree_1000 = tree;
+                tree_2 = tree;
             elseif its == draw*3
-                tree_1500 = tree;
+                tree_3 = tree;
             elseif its == draw*4
-                tree_2000 = tree;
+                tree_4 = tree;
             elseif its == draw*5
-                tree_2500 = tree;
+                tree_5 = tree;
             elseif its == draw*6
-                tree_3000 = tree;
+                tree_6 = tree;
             elseif its == draw*7
-                tree_3500 = tree;
+                tree_7 = tree;
             elseif its == samples
-                tree_4000 = tree;
+                tree_8 = tree;
             end
         end
         
@@ -132,6 +132,7 @@ else
     end
     
 end
+numPaths
 
 % find path with minimum cost to end_node
 path = findMinimumPath(tree,end_node,dim);
@@ -139,53 +140,90 @@ path = findMinimumPath(tree,end_node,dim);
 b = clock;
 run_time = 3600*(b(4)-a(4)) + 60 * (b(5)-a(5)) + (b(6) - a(6));
 
-path_500 = findMinimumPath(tree_500,end_node,dim);
+path_1 = findMinimumPath(tree_1,end_node,dim);
 
-path_1000 = findMinimumPath(tree_1000,end_node,dim);
+path_2 = findMinimumPath(tree_2,end_node,dim);
 
-path_1500 = findMinimumPath(tree_1500,end_node,dim);
+path_3 = findMinimumPath(tree_3,end_node,dim);
 
-path_2000 = findMinimumPath(tree_2000,end_node,dim);
+path_4 = findMinimumPath(tree_4,end_node,dim);
 
-path_2500 = findMinimumPath(tree_2500,end_node,dim);
+path_5 = findMinimumPath(tree_5,end_node,dim);
 
-path_3000 = findMinimumPath(tree_3000,end_node,dim);
+path_6 = findMinimumPath(tree_6,end_node,dim);
 
-path_3500 = findMinimumPath(tree_3500,end_node,dim);
+path_7 = findMinimumPath(tree_7,end_node,dim);
 
-path_4000 = findMinimumPath(tree_4000,end_node,dim);
+path_8 = findMinimumPath(tree_8,end_node,dim);
 
 sizePath = size(path,1);
 
 
 if show_output == 1
+    
+    if size(path_1, 1) > 0
+        figure;
+        plotExpandedTree(world,tree_1,dim);
+        plotWorld(world,path_1,dim);
+    else
+        disp('COULD NOT FIND A CONNECTING TREE TILL 1/8th SAMPLES SO NOT DRAWING THAT PATH')
+    end
+    if size(path_2, 1) > 0
+        figure;
+        plotExpandedTree(world,tree_2,dim);
+        plotWorld(world,path_2,dim);
+    else
+        disp('COULD NOT FIND A CONNECTING TREE TILL 2/8th SAMPLES SO NOT DRAWING THAT PATH')
+    end
+    if size(path_3, 1) > 0
     figure;
-    plotExpandedTree(world,tree_500,dim);
-    plotWorld(world,path_500,dim);
+    plotExpandedTree(world,tree_3,dim);
+    plotWorld(world,path_3,dim);
+    else
+        disp('COULD NOT FIND A CONNECTING TREE TILL 3/8th SAMPLES SO NOT DRAWING THAT PATH')
+    end
+    if size(path_4, 1) > 0
     figure;
-    plotExpandedTree(world,tree_1000,dim);
-    plotWorld(world,path_1000,dim);
+    plotExpandedTree(world,tree_4,dim);
+    plotWorld(world,path_4,dim);
+    else
+        disp('COULD NOT FIND A CONNECTING TREE TILL 4/8th SAMPLES SO NOT DRAWING THAT PATH')
+    end
+    if size(path_5, 1) > 0
     figure;
-    plotExpandedTree(world,tree_1500,dim);
-    plotWorld(world,path_1500,dim);
+    plotExpandedTree(world,tree_5,dim);
+    plotWorld(world,path_5,dim);
+    else
+        disp('COULD NOT FIND A CONNECTING TREE TILL 5/8th SAMPLES SO NOT DRAWING THAT PATH')
+    end
+    if size(path_6, 1) > 0
     figure;
-    plotExpandedTree(world,tree_2000,dim);
-    plotWorld(world,path_2000,dim);
+    plotExpandedTree(world,tree_6,dim);
+    plotWorld(world,path_6,dim);
+    else
+        disp('COULD NOT FIND A CONNECTING TREE TILL 6/8th SAMPLES SO NOT DRAWING THAT PATH')
+    end
+    if size(path_7, 1) > 0
     figure;
-    plotExpandedTree(world,tree_2500,dim);
-    plotWorld(world,path_2500,dim);
+    plotExpandedTree(world,tree_7,dim);
+    plotWorld(world,path_7,dim);
+    else
+        disp('COULD NOT FIND A CONNECTING TREE TILL 7/8th SAMPLES SO NOT DRAWING THAT PATH')
+    end
+    if size(path_8, 1) > 0
     figure;
-    plotExpandedTree(world,tree_3000,dim);
-    plotWorld(world,path_3000,dim);
-    figure;
-    plotExpandedTree(world,tree_3500,dim);
-    plotWorld(world,path_3500,dim);
-    figure;
-    plotExpandedTree(world,tree_4000,dim);
-    plotWorld(world,path_4000,dim);
+    plotExpandedTree(world,tree_8,dim);
+    plotWorld(world,path_8,dim);
+    else
+        disp('COULD NOT FIND A CONNECTING TREE TILL 8/8th SAMPLES SO NOT DRAWING THAT PATH')
+    end
+    if size(path, 1) > 0
     figure;
     plotExpandedTree(world,tree,dim);
     plotWorld(world,path,dim);
+    else
+        disp('COULD NOT FIND A CONNECTING TREE TILL 1/8th SAMPLES SO NOT DRAWING THAT PATH')
+    end
 end
 end
 
@@ -649,15 +687,21 @@ for i=1:size(tree,1),
     end
 end
 
-% find minimum cost last node
-[tmp,idx] = min(connectingNodes(:,dim+2));
-
-% construct lowest cost path
-path = [connectingNodes(idx,:); end_node];
-parent_node = connectingNodes(idx,dim+3);
-while parent_node>1,
-    parent_node = tree(parent_node,dim+3);
-    path = [tree(parent_node,:); path];
+if size(connectingNodes, 1) > 0
+    
+    % find minimum cost last node
+    [tmp,idx] = min(connectingNodes(:,dim+2));
+    
+    % construct lowest cost path
+    path = [connectingNodes(idx,:); end_node];
+    parent_node = connectingNodes(idx,dim+3);
+    while parent_node>1,
+        parent_node = tree(parent_node,dim+3);
+        path = [tree(parent_node,:); path];
+    end
+    
+else
+    path = [];
 end
 
 end
