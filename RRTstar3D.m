@@ -222,7 +222,7 @@ if show_output == 1
     plotExpandedTree(world,tree,dim);
     plotWorld(world,path,dim);
     else
-        disp('COULD NOT FIND A CONNECTING TREE TILL 1/8th SAMPLES SO NOT DRAWING THAT PATH')
+        disp('COULD NOT FIND A CONNECTING TREE FOR THE SPECIFIED SAMPLES. PLEASE INCREASE THE NUMBER OF SAMPLES')
     end
 end
 end
